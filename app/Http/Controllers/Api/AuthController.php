@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -11,44 +12,48 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
+    /* Fonction de test API */
+    public function test () { return response()->json([
+        'message' => 'Laravel API call successfully done!'
+    ]); }
+
     /**
      * Create user
      *
-     * @param  [string] name
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @return [string] message
+     * @param Request $request
+     * @return JsonResponse [string] message
      */
-    public function register(Request $request)
+    public function register (Request $request)
     {
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
+
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
+
         $user->save();
+
+        $accessToken = $user->createToken('authToken')->accessToken;
+
         return response()->json([
-            'message' => 'Successfully created user!'
+            'user' => $user,
+            'access_token' => $accessToken
         ], 201);
     }
 
     /**
      * Login user and create token
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @param Request $request
+     * @return JsonResponse [string] access_token
      */
-    public function login(Request $request)
+    public function login (Request $request)
     {
         $request->validate([
             'email' => 'required|string|email',
@@ -78,7 +83,8 @@ class AuthController extends Controller
     /**
      * Logout user (Revoke the token)
      *
-     * @return [string] message
+     * @param Request $request
+     * @return JsonResponse [string] message
      */
     public function logout(Request $request)
     {
@@ -91,7 +97,8 @@ class AuthController extends Controller
     /**
      * Get the authenticated User
      *
-     * @return [json] user object
+     * @param Request $request
+     * @return JsonResponse [json] user object
      */
     public function user(Request $request)
     {
