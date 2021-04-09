@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Resources\CompanyResource;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +27,14 @@ Route::prefix('/auth')->group(function () {
     Route::post('/register', 'App\Http\Controllers\Api\AuthController@register');
     Route::middleware('auth:api')->get('/user', 'App\Http\Controllers\Api\AuthController@user');
     Route::middleware('auth:api')->get('/logout', 'App\Http\Controllers\Api\AuthController@logout');
+});
+
+// Companies routes
+Route::get('/companies', function () {
+    return CompanyResource::collection(Company::all());
+});
+Route::prefix('/company')->group(function ()  {
+    Route::get('/{id}', function ($id) {
+        return Company::query()->find($id);
+    });
 });
