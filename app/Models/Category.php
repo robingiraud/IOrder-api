@@ -5,22 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'description',
-        'latitude',
-        'longitude'
+        'description'
     ];
 
     /**
-     * Get the categories for the company.
+     * Get the company that owns the category.
      */
-    public function categories()
+    public function company()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Company::class);
     }
 }

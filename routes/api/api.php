@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -29,12 +31,17 @@ Route::prefix('/auth')->group(function () {
     Route::middleware('auth:api')->get('/logout', 'App\Http\Controllers\Api\AuthController@logout');
 });
 
+
 // Companies routes
-Route::get('/companies', function () {
-    return CompanyResource::collection(Company::all());
-});
-Route::prefix('/company')->group(function ()  {
-    Route::get('/{id}', function ($id) {
-        return Company::query()->find($id);
-    });
-});
+Route::get('/companies', [CompanyController::class, 'index']);
+Route::post('/company', [CompanyController::class, 'store']);
+Route::get('/companies/{id}', [CompanyController::class, 'show']);
+Route::put('/companies/{id}', [CompanyController::class, 'update']);
+Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
+
+// Companies routes
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/category', [CategoryController::class, 'store']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::put('/categories/{id}', [CategoryController::class, 'update']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CompanyResource;
-use App\Models\Company;
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CompanyController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::query()->with(['categories'])->paginate(100);
-        return response(CompanyResource::collection($companies));
+        $categories = Category::query()->with(['company'])->paginate(100);
+        return response(CategoryResource::collection($categories));
     }
 
     /**
@@ -37,12 +37,11 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $company = new Company();
-        $company->name = $request->name;
-        $company->description = $request->description;
-
-        if ($company->save()) {
-            return response($company->id);
+        $category = new Category();
+        $category->name = $request->name;
+        $category->description = $request->description;
+        if ($category->save()) {
+            return response($category->id);
         } else {
             return response(['error' => 'Une erreur est survenue lors de  l\'ajout.']);
         }
@@ -56,8 +55,8 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::findOrFail($id);
-        return response(new CompanyResource($company));
+        $category = Category::findOrFail($id);
+        return response(new CategoryResource($category));
     }
 
     /**
@@ -80,11 +79,11 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $company = Company::findOrFail($id);
-        $company->name = $request->name;
-        $company->description = $request->description;
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->description = $request->description;
 
-        return response($company->save());
+        return response($category->save());
     }
 
     /**
@@ -95,7 +94,6 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company = Company::findOrFail($id);
-        return response($company->delete());
+        //
     }
 }
