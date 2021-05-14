@@ -15,7 +15,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::query()->with(['categories'])->paginate(100);
+        $companies = Company::query()->paginate(20);
         return response(CompanyResource::collection($companies));
     }
 
@@ -56,7 +56,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::findOrFail($id);
+        $company = Company::with(['categories'])->findOrFail($id);
         return response(new CompanyResource($company));
     }
 
