@@ -40,6 +40,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
+        $category->company_id = $request->company_id;
         if ($category->save()) {
             return response($category->id);
         } else {
