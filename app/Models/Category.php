@@ -17,8 +17,12 @@ class Category extends Model
     /**
      * Get the company that owns the category.
      */
-    public function company()
+    public function company ()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function products () {
+        return $this->hasMany(Product::class);
     }
 }

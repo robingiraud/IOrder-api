@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::query()->with(['company'])->paginate(100);
+        $categories = Category::query()->with(['products'])->paginate(100);
         return response(CategoryResource::collection($categories));
     }
 
@@ -37,6 +38,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->company_id) {
+            return response(['error' => 'Veuillez renseigner l\'établissement de la catégorie.']);
+        }
+
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
@@ -95,6 +100,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category  = Category::findOrFail($id);
+        return response($category->delete());
     }
 }
