@@ -86,8 +86,8 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
-        $category->name = $request->name;
-        $category->description = $request->description;
+        if ($request->name) $category->name = $request->name;
+        if ($request->description) $category->description = $request->description;
 
         return response($category->save());
     }

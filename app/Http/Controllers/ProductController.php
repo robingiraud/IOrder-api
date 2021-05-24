@@ -38,9 +38,9 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
+        if ($request->name) $product->name = $request->name;
+        if ($request->description) $product->description = $request->description;
+        if ($request->price) $product->price = $request->price;
 
         return response($product->save());
     }
