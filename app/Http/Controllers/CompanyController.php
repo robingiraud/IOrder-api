@@ -64,6 +64,8 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         if ($request->name) $company->name = $request->name;
         if ($request->description) $company->description = $request->description;
+        if ($request->latitude) $company->description = $request->latitude;
+        if ($request->longitude) $company->description = $request->longitude;
 
         return response($company->save());
     }
