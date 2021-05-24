@@ -13,7 +13,8 @@ class Company extends Model
         'name',
         'description',
         'latitude',
-        'longitude'
+        'longitude',
+        'keywords'
     ];
 
     /**

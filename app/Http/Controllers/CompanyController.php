@@ -32,6 +32,7 @@ class CompanyController extends Controller
         $company->description = $request->description;
         $company->latitude = $request->latitude;
         $company->longitude = $request->longitude;
+        $company->keywords = $request->keywords;
 
         if ($company->save()) {
             return response($company->id);
@@ -66,6 +67,7 @@ class CompanyController extends Controller
         if ($request->description) $company->description = $request->description;
         if ($request->latitude) $company->latitude = $request->latitude;
         if ($request->longitude) $company->longitude = $request->longitude;
+        if ($request->keywords) $company->keywords = $request->keywords;
 
         return response($company->save());
     }

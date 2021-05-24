@@ -22,6 +22,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->keywords = $request->keywords;
         $product->category_id = $request->category_id;
         if ($product->save()) {
             return response($product->id);
@@ -41,6 +42,7 @@ class ProductController extends Controller
         if ($request->name) $product->name = $request->name;
         if ($request->description) $product->description = $request->description;
         if ($request->price) $product->price = $request->price;
+        if ($request->keywords) $product->keywords = $request->keywords;
 
         return response($product->save());
     }
