@@ -20,16 +20,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,6 +30,8 @@ class CompanyController extends Controller
         $company = new Company();
         $company->name = $request->name;
         $company->description = $request->description;
+        $company->latitude = $request->latitude;
+        $company->longitude = $request->longitude;
 
         if ($company->save()) {
             return response($company->id);
@@ -58,17 +50,6 @@ class CompanyController extends Controller
     {
         $company = Company::with(['categories'])->findOrFail($id);
         return response(new CompanyResource($company));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
