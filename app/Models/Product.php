@@ -22,4 +22,12 @@ class Product extends Model
     public function category () {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Get the orders that contains the product
+     */
+    public function orders ()
+    {
+        return $this->belongsToMany(Order::class);
+    }
 }

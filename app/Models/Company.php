@@ -24,4 +24,12 @@ class Company extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    /**
+     * Get the orders for the company.
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
